@@ -53,16 +53,16 @@ sonar();
 // la variabile "pausa" diminuisce proporzionalmente all'avvicinarsi dell'ostacolo 
 pausa=map(distanza,30,0,400,30); 
 while(distanza<=30){ 
-sonar(); 
-pausa=map(distanza,30,0,400,30); 
-digitalWrite(ledPin,HIGH); 
-tone(buzPin, 300, pausa); 
-delay(pausa); 
-sonar(); 
-pausa=map(distanza,30,0,400,30); 
-digitalWrite(ledPin,LOW); 
-noTone(buzPin); 
-delay(pausa); 
+  sonar(); 
+  pausa=map(distanza,30,0,400,30); 
+  digitalWrite(ledPin,HIGH); 
+  tone(buzPin, 300, pausa); 
+  delay(pausa); 
+  sonar(); 
+  pausa=map(distanza,30,0,400,30); 
+  digitalWrite(ledPin,LOW); 
+  noTone(buzPin); 
+  delay(pausa); 
 } 
 digitalWrite(ledPin,LOW); 
 noTone(buzPin); 
