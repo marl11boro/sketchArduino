@@ -15,6 +15,7 @@ LiquidCrystal lcd(RS,E,D4,D5,D6,D7);
 #define trigPin 11 
 #define echoPin 12 
 float distanza;
+
 void setup(){ 
 lcd.begin(16,2); 
 pinMode(buzPin,OUTPUT); 
