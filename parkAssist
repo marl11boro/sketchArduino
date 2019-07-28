@@ -1,0 +1,70 @@
+/* programma che calcola la distanza di un oggetto,
+facendo poi lampeggiare un led e suonare un cicalino con frequenza crescente all'avvicinarsi di esso*/ 
+
+#include <LiquidCrystal.h> 
+// collegamenti fra LCD e scheda Arduino 
+#define RS 8 
+#define E 7 
+#define D4 6 
+#define D5 5 
+#define D6 4 
+#define D7 3 
+LiquidCrystal lcd(RS,E,D4,D5,D6,D7); 
+#define buzPin 9 
+#define ledPin 10 
+#define trigPin 11 
+#define echoPin 12 
+float distanza;
+void setup(){ 
+lcd.begin(16,2); 
+pinMode(buzPin,OUTPUT); 
+pinMode(trigPin,OUTPUT); 
+pinMode(echoPin,INPUT); 
+pinMode(ledPin,OUTPUT); 
+lcd.setCursor(0,0); 
+lcd.print("Progetto"); 
+lcd.setCursor(0,1); 
+lcd.print("Paolo Iovino"); 
+delay(5000); 
+lcd.clear(); 
+}
+
+/*creo una funzione a parte per calcolare la distanza dell'oggetto, per poterla richiamare più volte senza troppa fatica*/ 
+
+void sonar(){ 
+float durata; 
+digitalWrite(trigPin,LOW); 
+delayMicroseconds(5); 
+digitalWrite(trigPin,HIGH); 
+delayMicroseconds(10); 
+digitalWrite(trigPin,LOW); 
+durata=pulseIn(echoPin,HIGH); 
+distanza=(durata/2.0*0.0343); 
+lcd.setCursor(0,0); 
+lcd.print("distanza:"); 
+lcd.setCursor(0,1); 
+lcd.println(distanza); 
+lcd.print("cm"); 
+}
+
+void loop(){ 
+int pausa;
+sonar(); 
+// la variabile "pausa" diminuisce proporzionalmente all'avvicinarsi dell'ostacolo 
+pausa=map(distanza,30,0,400,30); 
+while(distanza<=30){ 
+sonar(); 
+pausa=map(distanza,30,0,400,30); 
+digitalWrite(ledPin,HIGH); 
+tone(buzPin, 300, pausa); 
+delay(pausa); 
+sonar(); 
+pausa=map(distanza,30,0,400,30); 
+digitalWrite(ledPin,LOW); 
+noTone(buzPin); 
+delay(pausa); 
+} 
+digitalWrite(ledPin,LOW); 
+noTone(buzPin); 
+delay(5); 
+}
